@@ -1,0 +1,17 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block extrastyle %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+{% endblock %}
+
+{% block branding %}
+<div class="custom-admin-brand">
+    <div class="custom-admin-logo">✓</div>
+    <div>
+        <h1>Hangarin Admin</h1>
+        <p>Task & To-Do Manager</p>
+    </div>
+</div>
+{% endblock %}

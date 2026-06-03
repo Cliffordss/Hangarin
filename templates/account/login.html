@@ -1,0 +1,93 @@
+{% load static %}
+{% load pwa %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login | Hangarin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    {% progressive_web_app_meta %}
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body class="auth-page">
+
+    <div class="auth-layout">
+        <aside class="auth-panel">
+            <a href="/" class="auth-back">← Back to Home</a>
+
+            <div class="auth-brand-box">
+                <div class="auth-logo-mark">H</div>
+                <h1>Hangarin</h1>
+                <p>Plan your day. Track your progress. Finish your goals.</p>
+            </div>
+
+            <div class="auth-tips">
+                <h2>Why use Hangarin?</h2>
+                <ul>
+                    <li>Organize school and work tasks</li>
+                    <li>Set categories and priorities</li>
+                    <li>Add notes and smaller subtasks</li>
+                </ul>
+            </div>
+        </aside>
+
+        <main class="auth-form-area">
+            <div class="auth-box">
+                <span class="mini-label">Welcome back</span>
+                <h2>Login to your account</h2>
+                <p class="auth-muted">Use your local account for now.</p>
+
+                <div class="social-buttons">
+                    <a href="#" class="social-button google" onclick="alert('Google login will be configured later.'); return false;">
+                        <span>G</span>
+                        Continue with Google
+                    </a>
+
+                    <a href="#" class="social-button github" onclick="alert('GitHub login will be configured later.'); return false;">
+                        <span>GH</span>
+                        Continue with GitHub
+                    </a>
+                </div>
+
+                <div class="auth-divider">
+                    <span></span>
+                    <small>or login with password</small>
+                    <span></span>
+                </div>
+
+                <form method="post" action="{% url 'account_login' %}" class="clean-form">
+                    {% csrf_token %}
+
+                    {% if form.non_field_errors %}
+                        <div class="form-error">
+                            {{ form.non_field_errors }}
+                        </div>
+                    {% endif %}
+
+                    <label for="id_login">Username or Email</label>
+                    <input type="text" name="login" id="id_login" placeholder="Enter username or email" required>
+
+                    <label for="id_password">Password</label>
+                    <input type="password" name="password" id="id_password" placeholder="Enter password" required>
+
+                    <label class="check-row">
+                        <input type="checkbox" name="remember">
+                        Remember me
+                    </label>
+
+                    <button type="submit" class="form-submit">Login</button>
+                </form>
+
+                <p class="switch-text">
+                    Don’t have an account?
+                    <a href="{% url 'account_signup' %}">Create account</a>
+                </p>
+            </div>
+        </main>
+    </div>
+
+</body>
+</html>

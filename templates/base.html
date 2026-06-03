@@ -5,61 +5,49 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <title>Hangarin | Task & To-Do Manager</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hangarin</title>
 
     {% progressive_web_app_meta %}
 
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f4f6f8;
-            color: #222;
-        }
-
-        header {
-            background: #0A0A0A;
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
-
-        main {
-            max-width: 900px;
-            margin: 40px auto;
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
-        }
-
-        .btn {
-            display: inline-block;
-            background: #0A0A0A;
-            color: white;
-            padding: 10px 16px;
-            border-radius: 6px;
-            text-decoration: none;
-            margin-top: 10px;
-        }
-
-        .btn:hover {
-            background: #333;
-        }
-    </style>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
-<body>
+<body class="app-body">
 
-    <header>
-        <h1>Hangarin</h1>
-        <p>Task & To-Do Manager</p>
-    </header>
+    <div class="app-shell">
+        <aside class="side-nav">
+            <a href="/" class="side-brand">
+                <div class="side-logo">H</div>
+                <div>
+                    <h1>Hangarin</h1>
+                    <p>Task Manager</p>
+                </div>
+            </a>
 
-    <main>
-        {% block content %}
-        {% endblock %}
-    </main>
+            <nav class="side-menu">
+                <a href="/" class="side-link active">Home</a>
+                <a href="/admin/" class="side-link">Admin Panel</a>
+                <a href="/manifest.json" class="side-link">PWA Manifest</a>
+
+                {% if user.is_authenticated %}
+                    <a href="{% url 'account_logout' %}" class="side-link danger">Logout</a>
+                {% else %}
+                    <a href="{% url 'account_login' %}" class="side-link">Login</a>
+                    <a href="{% url 'account_signup' %}" class="side-link filled">Register</a>
+                {% endif %}
+            </nav>
+
+            <div class="side-note">
+                <strong>Hangarin</strong>
+                <span>Organize goals into tasks, notes, and subtasks.</span>
+            </div>
+        </aside>
+
+        <main class="app-main">
+            {% block content %}
+            {% endblock %}
+        </main>
+    </div>
 
 </body>
 </html>

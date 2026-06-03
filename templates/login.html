@@ -1,0 +1,99 @@
+{% load static %}
+{% load pwa %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login | Hangarin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    {% progressive_web_app_meta %}
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body class="hangarin-login-body">
+
+    <main class="login-screen">
+        <section class="login-card">
+
+            <div class="login-brand">
+                <div class="login-icon">
+                    <span>✓</span>
+                    <span>☰</span>
+                </div>
+
+                <h1>Hangarin</h1>
+                <p>Task & To-Do Manager</p>
+            </div>
+
+            <div class="login-tabs">
+                <button class="tab active" type="button">Login</button>
+                <button class="tab" type="button" onclick="alert('Register is disabled for local admin mode. Use your Django superuser account.');">
+                    Register
+                </button>
+            </div>
+
+            <p class="signin-label">Sign in with:</p>
+
+            <div class="social-icons">
+                <button type="button" onclick="alert('Google login will be configured later.');">G</button>
+                <button type="button" onclick="alert('GitHub login will be configured later.');">GH</button>
+            </div>
+
+            <div class="login-divider">
+                <span></span>
+                <p>or</p>
+                <span></span>
+            </div>
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="login-error">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <form method="post" action="{% url 'login' %}" class="login-form">
+                {% csrf_token %}
+
+                <label for="id_username">Username</label>
+                <input 
+                    type="text" 
+                    name="username" 
+                    id="id_username" 
+                    required
+                    placeholder="Enter admin username"
+                >
+
+                <label for="id_password">Password</label>
+                <input 
+                    type="password" 
+                    name="password" 
+                    id="id_password" 
+                    required
+                    placeholder="Enter admin password"
+                >
+
+                <div class="login-row">
+                    <label class="remember">
+                        <input type="checkbox" checked>
+                        Remember me
+                    </label>
+                </div>
+
+                <button type="submit" class="login-submit">
+                    Sign In
+                </button>
+            </form>
+
+            <p class="login-help">
+                Use your Django superuser account to access the dashboard.
+            </p>
+
+        </section>
+    </main>
+
+</body>
+</html>

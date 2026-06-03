@@ -15,11 +15,26 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
-from django.views.generic import TemplateView
+from django.urls import path
+from django.views.generic import RedirectView
+
+from tasks import views
+
+
+admin.site.site_header = "Hangarin Admin"
+admin.site.site_title = "Hangarin Admin Portal"
+admin.site.index_title = "Welcome to Hangarin Task Manager"
+
 
 urlpatterns = [
+    path('', views.login_view, name='login'),
+    path('dashboard/', views.dashboard_view, name='dashboard'),
+    path('logout/', views.logout_view, name='logout'),
+
+    # Redirect old allauth login link back to our local login page
+    path('accounts/login/', RedirectView.as_view(pattern_name='login'), name='account_login'),
+    path('accounts/signup/', RedirectView.as_view(pattern_name='login'), name='account_signup'),
+
+    # Real Django admin pages
     path('admin/', admin.site.urls),
-    path('', TemplateView.as_view(template_name='home.html'), name='home'),
-    path('', include('pwa.urls')),
 ]

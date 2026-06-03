@@ -1,12 +1,77 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h2>Welcome to Hangarin</h2>
 
-    <p>
-        Hangarin is a simple Task and To-Do Manager built with Django.
-        It helps users organize tasks, notes, priorities, categories, and subtasks.
-    </p>
+<section class="home-hero">
+    <div class="hero-copy">
+        <span class="mini-label">Django Task & To-Do Manager</span>
 
-    <a href="/admin/" class="btn">Go to Admin Panel</a>
+        <h2>Turn your goals into clear daily progress.</h2>
+
+        <p>
+            Hangarin helps users manage tasks, priorities, notes, categories,
+            and subtasks in a simple and organized workspace.
+        </p>
+
+        <div class="hero-actions">
+            <a href="/admin/" class="primary-action">Open Admin Dashboard</a>
+            <a href="{% url 'account_login' %}" class="secondary-action">Login Locally</a>
+        </div>
+    </div>
+
+    <div class="goal-board">
+        <div class="board-header">
+            <div>
+                <h3>Today’s Focus</h3>
+                <p>Sample Hangarin workflow</p>
+            </div>
+            <span class="board-badge">Local</span>
+        </div>
+
+        <div class="goal-card critical">
+            <span>Critical</span>
+            <h4>Finish Django Models</h4>
+            <p>Create Task, Category, Priority, Note, and SubTask models.</p>
+        </div>
+
+        <div class="goal-card school">
+            <span>School</span>
+            <h4>Generate Sample Data</h4>
+            <p>Use Faker to create tasks, notes, and subtasks.</p>
+        </div>
+
+        <div class="goal-card project">
+            <span>Project</span>
+            <h4>Prepare for Deployment</h4>
+            <p>Push the project to GitHub before PythonAnywhere setup.</p>
+        </div>
+    </div>
+</section>
+
+<section class="feature-grid">
+    <article class="feature-box">
+        <div class="feature-symbol">01</div>
+        <h3>Tasks</h3>
+        <p>Create and manage tasks with status, deadline, priority, and category.</p>
+    </article>
+
+    <article class="feature-box">
+        <div class="feature-symbol">02</div>
+        <h3>Priorities</h3>
+        <p>Use Critical, High, Medium, Low, and Optional levels.</p>
+    </article>
+
+    <article class="feature-box">
+        <div class="feature-symbol">03</div>
+        <h3>Notes</h3>
+        <p>Add important reminders and details for each task.</p>
+    </article>
+
+    <article class="feature-box">
+        <div class="feature-symbol">04</div>
+        <h3>Subtasks</h3>
+        <p>Break large goals into smaller steps that are easier to finish.</p>
+    </article>
+</section>
+
 {% endblock %}

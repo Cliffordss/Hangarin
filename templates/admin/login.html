@@ -1,0 +1,45 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Login | Hangarin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body class="auth-page">
+
+    <div class="admin-auth-wrap">
+        <div class="admin-auth-card">
+            <a href="/" class="auth-back">← Back to Home</a>
+
+            <div class="auth-logo-mark">H</div>
+            <h1>Hangarin Admin</h1>
+            <p class="auth-muted">Login using your admin account.</p>
+
+            {% if form.errors %}
+                <div class="form-error">
+                    Invalid username or password. Please try again.
+                </div>
+            {% endif %}
+
+            <form action="{{ app_path }}" method="post" id="login-form" class="clean-form">
+                {% csrf_token %}
+
+                <label for="id_username">Username</label>
+                <input type="text" name="username" autofocus autocapitalize="none" autocomplete="username" required id="id_username" placeholder="Admin username">
+
+                <label for="id_password">Password</label>
+                <input type="password" name="password" autocomplete="current-password" required id="id_password" placeholder="Admin password">
+
+                <input type="hidden" name="next" value="{{ next }}">
+
+                <button type="submit" class="form-submit">Login to Admin</button>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>

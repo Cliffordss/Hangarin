@@ -1,0 +1,202 @@
+{% load static %}
+{% load pwa %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hangarin Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    {% progressive_web_app_meta %}
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body class="dashboard-body">
+
+    <div class="dashboard-shell">
+
+        <aside class="dashboard-sidebar">
+            <div class="sidebar-brand">
+                <div class="sidebar-logo">✓</div>
+                <h1>Hangarin</h1>
+            </div>
+
+            <nav class="sidebar-menu">
+                <a href="{% url 'dashboard' %}" class="active">
+                    <span>⌂</span>
+                    Dashboard
+                </a>
+
+                <a href="/admin/tasks/task/">
+                    <span>☷</span>
+                    Tasks
+                </a>
+
+                <a href="/admin/tasks/note/">
+                    <span>✎</span>
+                    Notes
+                </a>
+
+                <a href="/admin/tasks/subtask/">
+                    <span>☑</span>
+                    SubTasks
+                </a>
+
+                <a href="/admin/tasks/priority/">
+                    <span>★</span>
+                    Priorities
+                </a>
+
+                <a href="/admin/tasks/category/">
+                    <span>▣</span>
+                    Categories
+                </a>
+
+                <a href="/admin/">
+                    <span>⚙</span>
+                    Django Admin
+                </a>
+
+                <a href="{% url 'logout' %}" class="logout-link">
+                    <span>↪</span>
+                    Logout
+                </a>
+            </nav>
+        </aside>
+
+        <main class="dashboard-main">
+
+            <header class="dashboard-topbar">
+                <div class="topbar-title">
+                    <button class="menu-button" type="button">☰</button>
+                    <h2>Hangarin - Task Manager</h2>
+                </div>
+
+                <div class="topbar-user">
+                    <div class="notification-dot">3</div>
+                    <div class="avatar">
+                        {{ request.user.username|slice:":2"|upper }}
+                    </div>
+                    <div>
+                        <strong>{{ request.user.username }}</strong>
+                        <small>Administrator</small>
+                    </div>
+                </div>
+            </header>
+
+            <section class="dashboard-content">
+
+                <div class="page-heading">
+                    <h1>Dashboard</h1>
+                    <p>Overview of your Hangarin task management system.</p>
+                </div>
+
+                <section class="stats-grid">
+                    <a href="/admin/tasks/task/" class="stat-card">
+                        <div class="stat-icon blue">☷</div>
+                        <div>
+                            <p>Total Tasks</p>
+                            <h3>{{ total_tasks }}</h3>
+                        </div>
+                    </a>
+
+                    <a href="/admin/tasks/task/?status__exact=Pending" class="stat-card">
+                        <div class="stat-icon amber">◷</div>
+                        <div>
+                            <p>Pending</p>
+                            <h3>{{ pending_tasks }}</h3>
+                        </div>
+                    </a>
+
+                    <a href="/admin/tasks/task/?status__exact=In+Progress" class="stat-card">
+                        <div class="stat-icon cyan">◌</div>
+                        <div>
+                            <p>In Progress</p>
+                            <h3>{{ in_progress_tasks }}</h3>
+                        </div>
+                    </a>
+
+                    <a href="/admin/tasks/task/?status__exact=Completed" class="stat-card">
+                        <div class="stat-icon green">✓</div>
+                        <div>
+                            <p>Completed</p>
+                            <h3>{{ completed_tasks }}</h3>
+                        </div>
+                    </a>
+                </section>
+
+                <section class="mini-grid">
+                    <a href="/admin/tasks/category/" class="mini-card">
+                        <span>▣</span>
+                        <p>Categories</p>
+                        <h3>{{ category_count }}</h3>
+                    </a>
+
+                    <a href="/admin/tasks/priority/" class="mini-card">
+                        <span>★</span>
+                        <p>Priorities</p>
+                        <h3>{{ priority_count }}</h3>
+                    </a>
+
+                    <a href="/admin/tasks/note/" class="mini-card">
+                        <span>✎</span>
+                        <p>Notes</p>
+                        <h3>{{ note_count }}</h3>
+                    </a>
+
+                    <a href="/admin/tasks/subtask/" class="mini-card">
+                        <span>☑</span>
+                        <p>SubTasks</p>
+                        <h3>{{ subtask_count }}</h3>
+                    </a>
+                </section>
+
+                <section class="recent-panel">
+                    <div class="panel-header">
+                        <div>
+                            <h2>Recent Tasks</h2>
+                            <p>Latest tasks added to Hangarin.</p>
+                        </div>
+
+                        <a href="/admin/tasks/task/" class="view-all">View All</a>
+                    </div>
+
+                    <div class="recent-list">
+                        {% for task in recent_tasks %}
+                            <a href="/admin/tasks/task/{{ task.id }}/change/" class="recent-task">
+                                <h3>{{ task.title }}</h3>
+
+                                <div class="task-meta">
+                                    <span>📅 {{ task.deadline|date:"M d, Y" }}</span>
+                                    <span>▣ {{ task.category.name }}</span>
+                                    <span>★ {{ task.priority.name }}</span>
+                                </div>
+
+                                {% if task.status == "Pending" %}
+                                    <span class="status-badge pending">Pending</span>
+                                {% elif task.status == "In Progress" %}
+                                    <span class="status-badge progress">In Progress</span>
+                                {% elif task.status == "Completed" %}
+                                    <span class="status-badge completed">Completed</span>
+                                {% else %}
+                                    <span class="status-badge">{{ task.status }}</span>
+                                {% endif %}
+                            </a>
+                        {% empty %}
+                            <div class="empty-state">
+                                <h3>No tasks yet</h3>
+                                <p>Add sample data using your Faker seed command.</p>
+                                <a href="/admin/tasks/task/add/">Add Task</a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </section>
+
+            </section>
+        </main>
+
+    </div>
+
+</body>
+</html>
